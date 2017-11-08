@@ -19,24 +19,30 @@
 
 			<label>email:</label>
 			<input v-model="email" type="text">
+
+			<label>car make:</label>
+			<select v-model="make" name="">
+				<option v-for="(make_obj, make) in makesAndModels">
+					{{make}}
+				</option>
+			</select>
+
+			<label>car model:</label>
+			<select  v-model="model" name="">
+				<option v-for="model in models">
+					{{model}}
+				</option>
+			</select>
 			<br />
 			<button type="submit">Submit</button>
 		</form>
 
 		<div v-else>
 			<h1>Submitted with great success!</h1>
-			<form class="">
-				<select v-model="make" name="">
-					<option v-for="(make_obj, make) in makesAndModels">
-						{{make}}
-					</option>
-				</select>
-				<select  v-model="model" name="">
-					<option v-for="model in models">
-						{{model}}
-					</option>
-				</select>
-			</form>
+			<li>Name: {{name}}</li>
+			<li>email: {{email}}</li>
+			<li>make: {{make}}</li>
+			<li>model: {{model}}</li>
 		</div>
 	</div>
 
@@ -76,8 +82,16 @@
 						this.errors += ' email required.';
 					}
 
-					if (!this.email.match(pattern)) {
+					if (this.email && !this.email.match(pattern)) {
 						this.errors += ' invalid email.';
+					}
+
+					if (!this.make) {
+						this.errors += ' car make required.';
+					}
+
+					if (!this.model) {
+						this.errors += ' car model required.';
 					}
 
 					if (!this.errors) {
