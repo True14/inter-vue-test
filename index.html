@@ -25,6 +25,18 @@
 
 		<div v-else>
 			<h1>Submitted with great success!</h1>
+			<form class="">
+				<select v-model="make" name="">
+					<option v-for="(make_obj, make) in makesAndModels">
+						{{make}}
+					</option>
+				</select>
+				<select  v-model="model" name="">
+					<option v-for="model in models">
+						{{model}}
+					</option>
+				</select>
+			</form>
 		</div>
 	</div>
 
@@ -44,7 +56,11 @@
 					submitted: false,
 					errors: '',
 					name: '',
-					email: ''
+					email: '',
+					make: null,
+					models: [],
+					model: null,
+					makesAndModels: makesAndModels
 				};
 			},
 			methods: {
@@ -66,6 +82,19 @@
 
 					if (!this.errors) {
 						this.submitted = true;
+					}
+				}
+			},
+			watch: {
+				make: function() {
+					while (this.models.length > 0) {
+						this.models.pop();
+					}
+					if (this.make) {
+						var currentModels = this.makesAndModels[this.make];
+						for (var i = 0; i < currentModels.length; i++) {
+							this.models.push(currentModels[i]);
+						}
 					}
 				}
 			}
